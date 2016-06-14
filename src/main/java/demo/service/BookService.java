@@ -11,5 +11,9 @@ public interface BookService {
 	
 	void update(Book book);
 	
+	void create(Book book);
+	
+	Book findById(Integer id);
+	
 	List<Book> findAvailableBooks();
 }

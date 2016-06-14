@@ -34,4 +34,14 @@ public class BookServiceImpl implements BookService{
 		bookDao.update(book);
 	}
 
+	@Override
+	public Book findById(Integer id) {
+		return bookDao.findById(id);
+	}
+
+	@Override
+	public void create(Book book) {
+		bookDao.create(book);
+	}
+
 }

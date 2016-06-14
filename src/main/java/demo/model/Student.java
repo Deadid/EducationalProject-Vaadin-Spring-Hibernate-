@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -14,7 +16,9 @@ import javax.persistence.Table;
 @Table(name="students")
 public class Student implements Serializable{
 
+	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
     private Integer id;
 	
@@ -26,6 +30,15 @@ public class Student implements Serializable{
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "student")
 	private Set<Book> takenBooks;
+	
+	public Student() {
+		
+	}
+	public Student(String name, String surname) {
+		super();
+		this.name = name;
+		this.surname = surname;
+	}
 	
 	public String getSurname() {
 		return surname;

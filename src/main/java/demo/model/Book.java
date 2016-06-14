@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,7 +14,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "books")
 public class Book implements Serializable{
+	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 	
@@ -26,6 +30,20 @@ public class Book implements Serializable{
 	@JoinColumn(name = "student", nullable = true)
 	private Student student;
 	
+	
+	public Book() {
+		
+	}
+	
+	
+
+	public Book(String author, String title) {
+		super();
+		this.author = author;
+		this.title = title;
+	}
+
+
 
 	public Integer getId() {
 		return id;

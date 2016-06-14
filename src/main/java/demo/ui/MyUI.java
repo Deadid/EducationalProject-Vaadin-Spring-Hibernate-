@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.util.BeanItemContainer;
@@ -50,13 +51,13 @@ public class MyUI extends UI {
         root.setMargin(true);
         root.setSpacing(true);
         setContent(root);
-
         final Panel viewContainer = new Panel();
         viewContainer.setSizeFull();
         root.addComponent(viewContainer);
         root.setExpandRatio(viewContainer, 1.0f);
 		navigator = new Navigator(this, viewContainer);
 		navigator.addProvider(viewProvider);
+		
 	}
 
 }

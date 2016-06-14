@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import demo.model.Book;
 import demo.model.Student;
 
 @Repository
@@ -23,6 +24,11 @@ public class StudentDaoImpl extends AbstractDao<Student> implements StudentDao{
 		CriteriaQuery query = getCurrentSession().getCriteriaBuilder().createQuery(Student.class);
 		Root<Student> root = query.from(Student.class);
 		return getCurrentSession().createQuery(query).getResultList();
+	}
+
+	@Override
+	public Student findById(Integer id) {
+		return getCurrentSession().get(Student.class, id);
 	}
 
 }

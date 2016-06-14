@@ -11,5 +11,9 @@ public interface BookDao {
 	
 	void update(Book book);
 	
+	Book findById(Integer id);
+	
+	void create(Book book);
+	
 	List<Book> findAvailableBooks();
 }

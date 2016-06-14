@@ -23,7 +23,15 @@ public abstract class AbstractDao<T> {
 	public abstract List<T> findAll();
 	
 	@Transactional
+	public abstract T findById(Integer id);
+	
+	@Transactional
 	public void update(T entity) {
-		getCurrentSession().merge(entity);
+		getCurrentSession().saveOrUpdate(entity);;
+	}
+	
+	@Transactional
+	public void create(T entity) {
+		getCurrentSession().save(entity);
 	}
 }

@@ -2,25 +2,22 @@ package demo.view;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import de.steinwedel.messagebox.MessageBox;
-import demo.dto.ClickedStudentDto;
 import demo.model.Book;
 import demo.model.Student;
 import demo.service.BookService;
+import demo.service.StudentService;
 
 @SpringView
 public class StudentView extends VerticalLayout implements View{
@@ -34,7 +31,7 @@ public class StudentView extends VerticalLayout implements View{
 	private BeanItemContainer<Book> availableBooksContainer;
 	
 	@Autowired
-	private ClickedStudentDto clickedStudentDto;
+	private StudentService studentService;
 	
 	private MessageBox createDialog(String message, Runnable yesAction) {
 		return MessageBox
@@ -51,8 +48,9 @@ public class StudentView extends VerticalLayout implements View{
 		Grid takenBooksGrid = new Grid(takenBooksContainer);
 		takenBooksGrid.setWidth("50%");
 		takenBooksGrid.setCaption("Taken books");
-		takenBooksGrid.addItemClickListener(e -> {
-			Book clickedBook = (Book) e.getItemId();
+		takenBooksGrid.removeColumn("id");
+		takenBooksGrid.addSelectionListener(e -> {
+			Book clickedBook = (Book) e.getSelected();
 			clickedBook.setStudent(null);
 			createDialog("Student has returned the book?", () ->
 			{
@@ -69,8 +67,10 @@ public class StudentView extends VerticalLayout implements View{
 		availableBooksContainer = new BeanItemContainer<>(Book.class, availableBooks);
 		Grid availableBooksGrid = new Grid(availableBooksContainer);
 		availableBooksGrid.setCaption("Available books");
-		availableBooksGrid.addItemClickListener(e -> {
-			Book clickedBook = (Book) e.getItemId();
+		availableBooksGrid.removeColumn("student");
+		availableBooksGrid.removeColumn("id");
+		availableBooksGrid.addSelectionListener(e -> {
+			Book clickedBook = (Book) e.getSelected();
 			clickedBook.setStudent(clickedStudent);
 			createDialog("Give this book to the student?", () -> {
 				bookService.update(clickedBook);
@@ -82,17 +82,10 @@ public class StudentView extends VerticalLayout implements View{
 		return availableBooksGrid;
 	}
 	
-	@PostConstruct
-	public void init() {
-		Button goBackButton = new Button("Go back", e -> {
-			getUI().getNavigator().navigateTo(MainView.VIEW_NAME);
-		});
-		
-		addComponent(goBackButton);
-	}
 	@Override
 	public void enter(ViewChangeEvent event) {
-		Student clickedStudent = clickedStudentDto.getClickedStudent();
+		Integer id = Integer.parseInt(event.getParameters());
+		Student clickedStudent = studentService.findById(id);
 		Label label = new Label(clickedStudent.getName() + " " + clickedStudent.getSurname());
 		addComponent(label);
 		

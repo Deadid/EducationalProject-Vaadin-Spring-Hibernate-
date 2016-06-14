@@ -41,4 +41,9 @@ public class BookDaoImpl extends AbstractDao<Book> implements BookDao{
 		session.remove(session.merge(book));
 	}
 
+	@Override
+	public Book findById(Integer id) {
+		return getCurrentSession().get(Book.class, id);
+	}
+
 }
