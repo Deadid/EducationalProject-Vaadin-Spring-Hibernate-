@@ -28,6 +28,11 @@ import demo.model.Student;
 import demo.service.BookService;
 import demo.service.StudentService;
 
+/**
+ * Core UI managed with spring
+ * @author smakhov
+ *
+ */
 @Theme("valo")
 @SpringUI
 @Title("Library")

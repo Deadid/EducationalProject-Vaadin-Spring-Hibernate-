@@ -11,6 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Book entity for model.
+ * @author smakhov
+ *
+ */
 @Entity
 @Table(name = "books")
 public class Book implements Serializable{
@@ -41,6 +46,16 @@ public class Book implements Serializable{
 		super();
 		this.author = author;
 		this.title = title;
+	}
+	
+
+
+	public Book(Integer id, String author, String title) {
+		super();
+		this.id = id;
+		this.author = author;
+		this.title = title;
+		this.student = student;
 	}
 
 

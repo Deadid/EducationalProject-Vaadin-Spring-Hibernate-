@@ -19,6 +19,11 @@ import demo.model.Student;
 import demo.service.BookService;
 import demo.service.StudentService;
 
+/**
+ * View that represents concrete student
+ * @author smakhov
+ *
+ */
 @SpringView
 public class StudentView extends VerticalLayout implements View{
 
@@ -33,6 +38,12 @@ public class StudentView extends VerticalLayout implements View{
 	@Autowired
 	private StudentService studentService;
 	
+	/**
+	 * Creates confirmation dialog with action action.
+	 * @param message to ask from user.
+	 * @param yesAction action which will be executed if user confirm
+	 * @return
+	 */
 	private MessageBox createDialog(String message, Runnable yesAction) {
 		return MessageBox
 				.createQuestion()
@@ -42,15 +53,20 @@ public class StudentView extends VerticalLayout implements View{
 				.withNoButton()
 				.withSpacer();
 	}
-	
+	/**
+	 * left grid, contains books taken by student.
+	 * @param clickedStudent
+	 * @return generated grid.
+	 */
 	private Grid createTakenBooksGrid(Student clickedStudent) {
 		takenBooksContainer = new BeanItemContainer<>(Book.class, clickedStudent.getTakenBooks());
 		Grid takenBooksGrid = new Grid(takenBooksContainer);
 		takenBooksGrid.setWidth("50%");
 		takenBooksGrid.setCaption("Taken books");
 		takenBooksGrid.removeColumn("id");
+		// by clicking on grid row we can 
 		takenBooksGrid.addSelectionListener(e -> {
-			Book clickedBook = (Book) e.getSelected();
+			Book clickedBook = (Book) e.getSelected().stream().findFirst().get();
 			clickedBook.setStudent(null);
 			createDialog("Student has returned the book?", () ->
 			{
@@ -61,7 +77,11 @@ public class StudentView extends VerticalLayout implements View{
 		});
 		return takenBooksGrid;
 	}
-	
+	/**
+	 * Left grid which contains books available for students.
+	 * @param clickedStudent
+	 * @return
+	 */
 	private Grid createAvailableBooksGrid(Student clickedStudent) {
 		List<Book> availableBooks = bookService.findAvailableBooks();
 		availableBooksContainer = new BeanItemContainer<>(Book.class, availableBooks);
@@ -69,8 +89,9 @@ public class StudentView extends VerticalLayout implements View{
 		availableBooksGrid.setCaption("Available books");
 		availableBooksGrid.removeColumn("student");
 		availableBooksGrid.removeColumn("id");
+		// Selecting row from second table allows us to give selected book to the student.
 		availableBooksGrid.addSelectionListener(e -> {
-			Book clickedBook = (Book) e.getSelected();
+			Book clickedBook = (Book) e.getSelected().stream().findFirst().get();
 			clickedBook.setStudent(clickedStudent);
 			createDialog("Give this book to the student?", () -> {
 				bookService.update(clickedBook);

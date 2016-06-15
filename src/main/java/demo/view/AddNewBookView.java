@@ -13,7 +13,11 @@ import com.vaadin.ui.TextField;
 
 import demo.model.Book;
 import demo.service.BookService;
-
+/**
+ * View that allows us to add new book to the library, ID generates automatically, need to fill author and title.
+ * @author smakhov
+ *
+ */
 @SpringView(name = AddNewBookView.VIEW_NAME)
 public class AddNewBookView extends FormLayout implements View{
 	public static final String VIEW_NAME = "add-new-book";

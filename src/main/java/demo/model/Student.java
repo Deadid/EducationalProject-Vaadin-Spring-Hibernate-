@@ -11,7 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
+/**
+ * Student entity.
+ * @author smakhov
+ *
+ */
 @Entity
 @Table(name="students")
 public class Student implements Serializable{

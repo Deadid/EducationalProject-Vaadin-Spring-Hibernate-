@@ -17,6 +17,11 @@ import com.vaadin.ui.VerticalLayout;
 import demo.model.Student;
 import demo.service.StudentService;
 
+/**
+ * View that allows us to register new student to the library, ID generates and need to specify only name and last name
+ * @author smakhov
+ *
+ */
 @SpringView(name = AddNewStudentView.VIEW_NAME)
 public class AddNewStudentView extends FormLayout implements View{
 	
@@ -32,10 +37,12 @@ public class AddNewStudentView extends FormLayout implements View{
 		addComponent(title);
 		
 		TextField nameField = new TextField("First name");
+		// TODO: need to refactor (bad idea set validators on view level, maybe better use entity annotations and bind them to fields).
 		nameField.addValidator(new StringLengthValidator("Name must be between 2 and 15 symbols", 2, 15, false));
 		nameField.setRequired(true);
 		
 		TextField lastnameField = new TextField("Last name");
+		// TODO: same thing.
 		lastnameField.addValidator(new StringLengthValidator("Last name must be between 2 and 15 symbols", 2, 15, false));
 		lastnameField.setRequired(true);
 		
